@@ -1,0 +1,18 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Monospaced, monospace;
+    margin: 0;
+}
+
+body a {
+    color: lightgray;
+}
+
+article {
+    width: fit-content;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 10px 20px;
+}
