@@ -41,7 +41,12 @@ $cached_data = $cache_storge->read_data_for_debug();
 $kamareon = new KamereonService(CONFIG_COUNTRY);
 $gigya = new GigyaService(CONFIG_USERNAME, CONFIG_PASSWORD, CONFIG_COUNTRY);
 $gigya_data = $gigya->retrieve_gigya_data();
-$kamareon->retrieve_kamereon_account_id($gigya_data->id_token, $gigya_data->person_id);
+if (!$gigya_data) {
+    die('Gigya service error: please check login');
+}
+if (!$kamareon->retrieve_kamereon_account_id($gigya_data->id_token, $gigya_data->person_id)) {
+    die('Kamareon service error: please check login');
+};
 
 $replace_patterns = array(
     '([A-HJ-NPR-Z]|[0-9]){11}[0-9]{6}',
