@@ -13,6 +13,8 @@ class KamereonService
     const KAMEREON_API_BACKEND_COCKPIT_URI = '/cockpit';
     const KAMEREON_API_BACKEND_LOCATION_URI = '/location';
     const KAMEREON_API_BACKEND_LOCK_STATUS_URI = '/lock-status';
+    const KAMEREON_API_BACKEND_CHARGING_URI = '/actions/charging-start';
+    const KAMEREON_API_BACKEND_AC_URI = '/actions/hvac-start';
     const KAMEREON_API_BACKEND_NOTIFICATION_SETTINGS_URI = '/notification-settings';
     const KAMEREON_API_BACKEND_HVAC_STATUS_URI = '/hvac-status';
 
@@ -49,10 +51,10 @@ class KamereonService
     }
 
     /**
-     * Buidl default POST data array
+     * Buidl default header data array
      *
      * @param string $id_token GigyaData ID token
-     * @return string[] POST data array
+     * @return string[] header data array
      */
     public function build_default_header_data($id_token)
     {
@@ -60,6 +62,17 @@ class KamereonService
             'apikey: ' . self::KAMEREON_API_KEY,
             'x-gigya-id_token: ' . $id_token,
         );
+    }
+
+    /**
+     * @param string $id_token GigyaData ID token
+     * @return string[] header data array
+     */
+    public function build_default_header_data_for_payload($id_token)
+    {
+        $header = $this->build_default_header_data($id_token);
+        array_push($header, 'Content-type: application/vnd.api+json');
+        return $header;
     }
 
     /**
@@ -104,6 +117,64 @@ class KamereonService
         if (!empty($response_data_kamereon) && isset($response_data_kamereon['data'])) {
             $mileage = $response_data_kamereon['data']['attributes']['totalMileage'];
             $car->mileage = $mileage;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Start charging
+     *
+     * @param Car $car
+     * @param string $id_token
+     * @return bool
+     */
+    function start_charging(Car &$car, $id_token)
+    {
+        $curl_helper = new CurlHelper();
+        $url = self::KAMEREON_API_BACKEND_URL . self::KAMEREON_API_BACKEND_ACCOUNTS_URI . $this->kamereon_account_id . self::KAMEREON_API_BACKEND_CAR_ADAPTER_V1_URI . $car->vin . self::KAMEREON_API_BACKEND_CHARGING_URI . self::KAMEREON_API_BACKEND_COUNTRY_PARAM . $this->kamereon_country_code;
+        $payload = '{"data":{"type":"ChargingStart","attributes":{"action":"start"}}}';
+        $response_data_kamereon = $curl_helper->exec_curl_with_header_and_payload($this->build_default_header_data_for_payload($id_token), $payload, $url);
+        if (!empty($response_data_kamereon) && isset($response_data_kamereon['data']) && isset($response_data_kamereon['data']['id'])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Start air conditioning
+     *
+     * @param Car $car
+     * @param string $id_token
+     * @param int $temperature
+     * @return bool
+     */
+    function start_ac(Car &$car, $id_token, $temperature)
+    {
+        $curl_helper = new CurlHelper();
+        $url = self::KAMEREON_API_BACKEND_URL . self::KAMEREON_API_BACKEND_ACCOUNTS_URI . $this->kamereon_account_id . self::KAMEREON_API_BACKEND_CAR_ADAPTER_V1_URI . $car->vin . self::KAMEREON_API_BACKEND_AC_URI . self::KAMEREON_API_BACKEND_COUNTRY_PARAM . $this->kamereon_country_code;
+        $payload = '{"data":{"type":"HvacStart","attributes":{"action":"start","targetTemperature":"' . intval($temperature) . '"}}}';
+        $response_data_kamereon = $curl_helper->exec_curl_with_header_and_payload($this->build_default_header_data_for_payload($id_token), $payload, $url);
+        if (!empty($response_data_kamereon) && isset($response_data_kamereon['data']) && isset($response_data_kamereon['data']['id'])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Stop air conditioning
+     *
+     * @param Car $car
+     * @param string $id_token
+     * @return bool
+     */
+    function stop_ac(Car &$car, $id_token)
+    {
+        $curl_helper = new CurlHelper();
+        $url = self::KAMEREON_API_BACKEND_URL . self::KAMEREON_API_BACKEND_ACCOUNTS_URI . $this->kamereon_account_id . self::KAMEREON_API_BACKEND_CAR_ADAPTER_V1_URI . $car->vin . self::KAMEREON_API_BACKEND_AC_URI . self::KAMEREON_API_BACKEND_COUNTRY_PARAM . $this->kamereon_country_code;
+        $payload = '{"data":{"type":"HvacStart","attributes":{"action":"cancel"}}}';
+        $response_data_kamereon = $curl_helper->exec_curl_with_header_and_payload($this->build_default_header_data_for_payload($id_token), $payload, $url);
+        if (!empty($response_data_kamereon) && isset($response_data_kamereon['data']) && isset($response_data_kamereon['data']['id'])) {
             return true;
         }
         return false;

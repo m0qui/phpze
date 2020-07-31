@@ -16,3 +16,11 @@ article {
     margin: 20px;
     padding: 10px 20px;
 }
+
+.hidden {
+    display: none;
+}
+
+td {
+    padding-right: 5px;
+}

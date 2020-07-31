@@ -1,67 +1,71 @@
-<HTML>
-<HEAD>
-    <LINK HREF="main.css" REL="stylesheet">
-    <META CONTENT="width=device-width, initial-scale=1.0" NAME="viewport">
-    <TITLE>{CAR_NAME}</TITLE>
-</HEAD>
-<BODY>
-<DIV ID="container">
-    <MAIN>
-        <ARTICLE>
-            <TABLE>
-                <TR>
-                    <TD><B>{CAR_NAME}</B></TD>
-                    <TD><SMALL><A HREF="{REFRESH_URL}">Refresh</A> ({DATA_TIMESTAMP})</SMALL></TD>
-                </TR>
-                <TR>
-                    <TD>Total mileage:</TD>
-                    <TD>{MILEAGE}km</TD>
-                </TR>
-                <TR>
-                    <TD>Plug status:</TD>
-                    <TD>{PLUGGED_IN}</TD>
-                </TR>
-                <TR>
-                    <TD>Charging status:</TD>
-                    <TD>{CHARGING}</TD>
-                </TR>
-                <TR>
-                    <TD>Fully charged in:</TD>
-                    <TD>{REMAINING}</TD>
-                </TR>
-                <TR>
-                    <TD>Instantaneous power:</TD>
-                    <TD>{POWER}kW</TD>
-                </TR>
-                <TR>
-                    <TD>Battery level:</TD>
-                    <TD>{BATTERY_LEVEL}%</TD>
-                </TR>
-                <TR>
-                    <TD>Battery energy:</TD>
-                    <TD>{BATTERY_ENERGY}kWh</TD>
-                </TR>
-                <TR>
-                    <TD>Range:</TD>
-                    <TD>{RANGE}km</TD>
-                </TR>
+<html>
+<head>
+    <link href="main.css" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{CAR_NAME}</title>
+</head>
+<body>
+<div id="container">
+    <main>
+        <article>
+            <table>
+                <tr>
+                    <td><b>{CAR_NAME}</b></td>
+                    <td><small>({DATA_TIMESTAMP}, <a href="{REFRESH_URL}">Refresh</a>)</small></td>
+                </tr>
+                <tr>
+                    <td>Total mileage:</td>
+                    <td>{MILEAGE}km</td>
+                </tr>
+                <tr>
+                    <td>Plug status:</td>
+                    <td>{PLUGGED_IN}</td>
+                </tr>
+                <tr>
+                    <td>Charging status:</td>
+                    <td>{CHARGING}</td>
+                </tr>
+                <tr>
+                    <td>Fully charged in:</td>
+                    <td>{REMAINING}</td>
+                </tr>
+                <tr>
+                    <td>Instantaneous power:</td>
+                    <td>{POWER}kW</td>
+                </tr>
+                <tr>
+                    <td>Battery level:</td>
+                    <td>{BATTERY_LEVEL}%</td>
+                </tr>
+                <tr>
+                    <td>Battery energy:</td>
+                    <td>{BATTERY_ENERGY}kWh</td>
+                </tr>
+                <tr>
+                    <td>Range:</td>
+                    <td>{RANGE}km</td>
+                </tr>
                 <!-- Always 20 -->
-                <!--                <TR>-->
-                <!--                    <TD>Battery temperature:</TD>-->
-                <!--                    <TD>{BATTERY_TEMP}&deg;C</TD>-->
-                <!--                </TR>-->
-                <TR>
-                    <TD>GPS location:</TD>
-                    <TD><A HREF="https://www.google.com/maps/place/{GPS_LAT},{GPS_LON}" TARGET="_blank">Google Maps</A>
-                    </TD>
-                </TR>
-                <TR>
-                    <TD>GPS update:</TD>
-                    <TD>{GPS_TIME}</TD>
-                </TR>
-            </TABLE>
-        </ARTICLE>
-    </MAIN>
-</DIV>
-</BODY>
-</HTML>
+                <!--                <tr>-->
+                <!--                    <td>Battery temperature:</td>-->
+                <!--                    <td>{BATTERY_TEMP}&deg;C</td>-->
+                <!--                </tr>-->
+                <tr>
+                    <td>GPS location:</td>
+                    <td><a href="https://www.google.com/maps/place/{GPS_LAT},{GPS_LON}" target="_blank">Google Maps</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>GPS update:</td>
+                    <td>{GPS_TIME}</td>
+                </tr>
+                <tr>
+                    <td>Air conditioning:</td>
+                    <td><a href="{REFRESH_URL}?startac">Start</a> / <a href="{REFRESH_URL}?stopac">Stop</a></td>
+                </tr>
+            </table>
+        </article>
+    </main>
+</div>
+</body>
+</html>

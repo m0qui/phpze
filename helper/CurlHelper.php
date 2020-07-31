@@ -20,6 +20,23 @@ class CurlHelper
     }
 
     /**
+     * @param array $header_data
+     * @param string $payload
+     * @param string $url
+     * @return bool|mixed
+     */
+    public function exec_curl_with_header_and_payload(array $header_data, $payload, $url)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch,CURLOPT_POST,TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header_data);
+
+        return $this->exec_curl($ch);
+    }
+
+    /**
      * @param $ch
      * @return bool|mixed
      */

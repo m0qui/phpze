@@ -4,6 +4,29 @@ require_once 'classloader.php';
 header('Content-Type: text/html; charset=utf-8');
 
 global $car;
+global $kamareon;
+global $id_token;
+
+/**
+ * Start charging
+ */
+if (isset($_GET['startcharging'])) {
+    $kamareon->start_charging($car, $id_token);
+}
+
+/**
+ * Start AC
+ */
+if (isset($_GET['startac'])) {
+    $kamareon->start_ac($car, $id_token, CONFIG_AC_TEMP);
+}
+
+/**
+ * Cancel AC
+ */
+if (isset($_GET['stopac'])) {
+    $kamareon->stop_ac($car, $id_token);
+}
 
 const CHARGING_STATUS = array('0' => 'Not charging',
     '0.1' => 'Waiting for planned charge',
@@ -51,7 +74,8 @@ switch ($car->model) {
             '{BATTERY_ENERGY}',
             '{RANGE}',
             '{BATTERY_TEMP}',
-            '{OUTDOOR_TEMP}'
+            '{OUTDOOR_TEMP}',
+            '{HIDDEN_WHEN_NOT_PLUGGED_IN}'
         );
         $html_replace_with = array(
             CONFIG_NAME,
@@ -66,7 +90,8 @@ switch ($car->model) {
             $car->battery_energy,
             $car->range,
             $car->battery_temperature,
-            $car->outdoor_temperature
+            $car->outdoor_temperature,
+            (($car->plug_status == 1) ? '' : 'hidden')
         );
         break;
     case ZOE_PH2:
@@ -95,7 +120,8 @@ switch ($car->model) {
             '{BATTERY_TEMP}',
             '{GPS_LAT}',
             '{GPS_LON}',
-            '{GPS_TIME}'
+            '{GPS_TIME}',
+            '{HIDDEN_WHEN_NOT_PLUGGED_IN}'
         );
         $html_replace_with = array(
             CONFIG_NAME,
@@ -112,7 +138,8 @@ switch ($car->model) {
             $car->battery_temperature,
             $car->gps_latitude,
             $car->gps_longitude,
-            $car->gps_timestamp
+            $car->gps_timestamp,
+            (($car->plug_status == 1) ? '' : 'hidden')
         );
         break;
     default:

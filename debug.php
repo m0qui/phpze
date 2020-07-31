@@ -17,11 +17,9 @@ function print_api_endpoint(KamereonService $kamareon, GigyaData $gigya_data, $u
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $kamareon->build_default_header_data($gigya_data->id_token));
     $response = curl_exec($ch);
-    //$obj = json_decode($response);
     echo censor_output($replace_patterns, $replace_placeholders, 'Endpoint: ' . $url);
     echo censor_output($replace_patterns, $replace_placeholders, 'Data: ' . json_encode(json_decode($response), JSON_PRETTY_PRINT)) . PHP_EOL;
     echo PHP_EOL;
-    //return $response;
 }
 
 /**
@@ -88,7 +86,7 @@ $replace_placeholders = array(
 );
 
 $urls = array($kamareon::KAMEREON_API_BACKEND_URL . $kamareon::KAMEREON_API_BACKEND_PERSONS_URI . $gigya_data->person_id . $kamareon::KAMEREON_API_BACKEND_COUNTRY_PARAM . CONFIG_COUNTRY);
-foreach (array($kamareon::KAMEREON_API_BACKEND_CAR_ADAPTER_V2_URI, $kamareon::KAMEREON_API_BACKEND_CAR_ADAPTER_V2_URI) as $api_version_backend_url) {
+foreach (array($kamareon::KAMEREON_API_BACKEND_CAR_ADAPTER_V1_URI, $kamareon::KAMEREON_API_BACKEND_CAR_ADAPTER_V2_URI) as $api_version_backend_url) {
     array_push($urls, $kamareon::KAMEREON_API_BACKEND_URL . $kamareon::KAMEREON_API_BACKEND_ACCOUNTS_URI . $kamareon->kamereon_account_id . $api_version_backend_url . CONFIG_VIN . $kamareon::KAMEREON_API_BACKEND_BATTERY_STATUS_URI . $kamareon::KAMEREON_API_BACKEND_COUNTRY_PARAM . CONFIG_COUNTRY);
     array_push($urls, $kamareon::KAMEREON_API_BACKEND_URL . $kamareon::KAMEREON_API_BACKEND_ACCOUNTS_URI . $kamareon->kamereon_account_id . $api_version_backend_url . CONFIG_VIN . $kamareon::KAMEREON_API_BACKEND_COCKPIT_URI . $kamareon::KAMEREON_API_BACKEND_COUNTRY_PARAM . CONFIG_COUNTRY);
     array_push($urls, $kamareon::KAMEREON_API_BACKEND_URL . $kamareon::KAMEREON_API_BACKEND_ACCOUNTS_URI . $kamareon->kamereon_account_id . $api_version_backend_url . CONFIG_VIN . $kamareon::KAMEREON_API_BACKEND_HVAC_STATUS_URI . $kamareon::KAMEREON_API_BACKEND_COUNTRY_PARAM . CONFIG_COUNTRY);

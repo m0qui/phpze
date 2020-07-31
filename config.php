@@ -17,6 +17,9 @@ const CONFIG_VIN = 'VF1**************';
 // Country (for API)
 const CONFIG_COUNTRY = 'DE';
 
+// Target temperatur for AC
+const CONFIG_AC_TEMP = 21;
+
 // Wether to remove user sensitive data from debug.php output (please check output before posting!)
 const CONFIG_CENSOR_OUTPUT = true;
 
