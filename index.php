@@ -1,6 +1,7 @@
 <?php
 require_once 'data.php';
 require_once 'classloader.php';
+require_once 'enums/chargemode.php';
 header('Content-Type: text/html; charset=utf-8');
 
 global $car;
@@ -26,6 +27,21 @@ if (isset($_GET['startac'])) {
  */
 if (isset($_GET['stopac'])) {
     $kamareon->stop_ac($car, $id_token);
+}
+
+/**
+ * Set charge mode
+ */
+if(isset($_GET['chargemode'])) {
+    switch ($_GET['chargemode']) {
+        default:
+        case 'always':
+            $kamareon->send_charge_mode($car, $id_token, CHARGE_MODE_ALWAYS);
+            break;
+        case 'schedule':
+            $kamareon->send_charge_mode($car, $id_token, CHARGE_MODE_SCHEDULE);
+            break;
+    }
 }
 
 const CHARGING_STATUS = array('0' => 'Not charging',
@@ -79,7 +95,7 @@ switch ($car->model) {
         );
         $html_replace_with = array(
             CONFIG_NAME,
-            $_SERVER['REQUEST_URI'],
+            parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH),
             $car->timestamp,
             $car->mileage,
             PLUG_STATUS[$car->plug_status],
@@ -125,7 +141,7 @@ switch ($car->model) {
         );
         $html_replace_with = array(
             CONFIG_NAME,
-            $_SERVER['REQUEST_URI'],
+            parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH),
             $car->timestamp,
             $car->mileage,
             PLUG_STATUS[$car->plug_status],

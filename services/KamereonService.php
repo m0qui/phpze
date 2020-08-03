@@ -1,4 +1,5 @@
 <?php
+require_once 'enums/chargemode.php';
 
 class KamereonService
 {
@@ -15,6 +16,7 @@ class KamereonService
     const KAMEREON_API_BACKEND_LOCK_STATUS_URI = '/lock-status';
     const KAMEREON_API_BACKEND_CHARGING_URI = '/actions/charging-start';
     const KAMEREON_API_BACKEND_AC_URI = '/actions/hvac-start';
+    const KAMEREON_API_BACKEND_CHARGE_MODE_URI = '/actions/charge-mode';
     const KAMEREON_API_BACKEND_NOTIFICATION_SETTINGS_URI = '/notification-settings';
     const KAMEREON_API_BACKEND_HVAC_STATUS_URI = '/hvac-status';
 
@@ -134,6 +136,18 @@ class KamereonService
         $curl_helper = new CurlHelper();
         $url = self::KAMEREON_API_BACKEND_URL . self::KAMEREON_API_BACKEND_ACCOUNTS_URI . $this->kamereon_account_id . self::KAMEREON_API_BACKEND_CAR_ADAPTER_V1_URI . $car->vin . self::KAMEREON_API_BACKEND_CHARGING_URI . self::KAMEREON_API_BACKEND_COUNTRY_PARAM . $this->kamereon_country_code;
         $payload = '{"data":{"type":"ChargingStart","attributes":{"action":"start"}}}';
+        $response_data_kamereon = $curl_helper->exec_curl_with_header_and_payload($this->build_default_header_data_for_payload($id_token), $payload, $url);
+        if (!empty($response_data_kamereon) && isset($response_data_kamereon['data']) && isset($response_data_kamereon['data']['id'])) {
+            return true;
+        }
+        return false;
+    }
+
+    function send_charge_mode(Car &$car, $id_token, $charge_mode)
+    {
+        $curl_helper = new CurlHelper();
+        $url = self::KAMEREON_API_BACKEND_URL . self::KAMEREON_API_BACKEND_ACCOUNTS_URI . $this->kamereon_account_id . self::KAMEREON_API_BACKEND_CAR_ADAPTER_V1_URI . $car->vin . self::KAMEREON_API_BACKEND_CHARGE_MODE_URI . self::KAMEREON_API_BACKEND_COUNTRY_PARAM . $this->kamereon_country_code;
+        $payload = '{"data":{"type":"ChargeMode","attributes":{"action":"'.$charge_mode.'"}}}';
         $response_data_kamereon = $curl_helper->exec_curl_with_header_and_payload($this->build_default_header_data_for_payload($id_token), $payload, $url);
         if (!empty($response_data_kamereon) && isset($response_data_kamereon['data']) && isset($response_data_kamereon['data']['id'])) {
             return true;
