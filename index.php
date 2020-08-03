@@ -44,6 +44,17 @@ if(isset($_GET['chargemode'])) {
     }
 }
 
+/**
+ * Redirect to remove GET parameters:
+ * Stupid, because we have to re-do all the data.php stuff. Good: because page refresh doesn't trigger last action again
+ * Stupid, because why now use POST? Good: bookmarkable actions.
+ */
+if (isset($_GET) && !empty($_GET)) {
+    header("HTTP/1.1 302 Moved Temporarily");
+    header("Location: ".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH));
+    header("Connection: close");
+}
+
 const CHARGING_STATUS = array('0' => 'Not charging',
     '0.1' => 'Waiting for planned charge',
     '0.2' => 'Charge ended',
