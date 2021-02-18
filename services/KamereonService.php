@@ -3,7 +3,7 @@ require_once 'enums/chargemode.php';
 
 class KamereonService
 {
-    const KAMEREON_API_KEY = 'oF09WnKqvBDcrQzcW1rJNpjIuy7KdGaB';
+    const KAMEREON_API_KEY = 'Ae9FDWugRxZQAGm3Sxgk7uJn6Q4CGEA2';
     const KAMEREON_API_BACKEND_URL = 'https://api-wired-prod-1-euw1.wrd-aws.com/';
     const KAMEREON_API_BACKEND_PERSONS_URI = 'commerce/v1/persons/';
     const KAMEREON_API_BACKEND_ACCOUNTS_URI = 'commerce/v1/accounts/';

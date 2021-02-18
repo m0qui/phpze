@@ -41,9 +41,10 @@ class GigyaService
         );
         $response_data_login = $curl_helper->exec_curl_with_post($post_data_login, self::GIGYA_ACCOUNTS_LOGIN);
         if ($response_data_login && isset($response_data_login['sessionInfo'])) {
-            $gigya_data->oauth_token = $response_data_login['sessionInfo']['cookieValue'];
+            $gigya_data->login_token = $response_data_login['sessionInfo']['cookieValue'];
             $post_data_jwt = array(
-                'oauth_token' => $gigya_data->oauth_token,
+                'login_token' => $gigya_data->login_token,
+                'ApiKey' => $this->get_api_key($this->country),
                 'fields' => 'data.personId,data.gigyaDataCenter',
                 'expiration' => 87000
             );
